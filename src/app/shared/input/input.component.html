@@ -1,0 +1,13 @@
+<input type="text" [formControl]="control"
+       class="block w-full py-1.5 px-3 text-gray-200 border border-gray-400 transition
+                  duration-500 focus:outline-none rounded bg-transparent focus:border-indigo-400"
+       placeholder="Enter Name" />
+<ng-container *ngIf="control.touched && !control.valid">
+  <p *ngIf="control.errors?.required"
+     class="text-red-400 pt-1">
+    Field is required!
+  </p>
+  <p *ngIf="control.errors?.minlength" class="text-red-400 pt-1">
+    Your input must be {{ control.errors?.requiredLength}} characters long
+  </p>
+</ng-container>
