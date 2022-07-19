@@ -14,4 +14,6 @@
   <p class="text-red-400 pt-1" *ngIf="control.errors?.email">You must enter a valid email</p>
   <p class="text-red-400 pt-1" *ngIf="control.errors?.min">Value is too low</p>
   <p class="text-red-400 pt-1" *ngIf="control.errors?.max">Value is too high</p>
+  <p class="text-red-400 pt-1" *ngIf="control.errors?.noMatch">Passwords do not match.</p>
+  <p class="text-red-400 pt-1" *ngIf="control.errors?.emailTaken">Email taken, please try another email.</p>
 </ng-container>
