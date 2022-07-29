@@ -32,7 +32,6 @@ export class LoginComponent implements OnInit {
         this.inSubmission = false;
         this.alertMsg = 'An unexpected error occurred, please try again later';
         this.alertColor = 'red';
-
         return
     }
 
