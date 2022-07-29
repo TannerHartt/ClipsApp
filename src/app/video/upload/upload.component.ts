@@ -100,11 +100,11 @@ export class UploadComponent implements OnDestroy {
         const clipDocRef = await this.clipsService.createClip(clip);
         console.log(clip); // Logs the clip object with all metadata filled.
 
-        this.alertColor = 'green';
+        this.alertColor = 'green'; // Gives the alert background a 'success' color.
         this.alertMsg = 'Success! Your clip is now uploaded.'; // Update to display success message.
-        this.showPercentage = false;
+        this.showPercentage = false; // Turns the percentage tracker feature off after a successful upload.
 
-        setTimeout(() => {
+        setTimeout(() => { // Sets a 1s delay after a successful upload, then redirects the user to the clip.
           this.router.navigate([
             'clip', clipDocRef.id
           ]);
@@ -112,7 +112,7 @@ export class UploadComponent implements OnDestroy {
       },
       error: (error) => { // Runs if an error occurred during the subscription / while viewing the observable.
         this.uploadForm.enable(); // Enables the form controls if there is an error.
-        this.alertColor = 'red';
+        this.alertColor = 'red'; // Turns modal background to red to visually show there was an error.
         this.alertMsg = 'Upload failed, please try again later.'; // Update to display error message.
         this.inSubmission = true;
         this.showPercentage = false; // Resets the percentage tracker when uploading.
