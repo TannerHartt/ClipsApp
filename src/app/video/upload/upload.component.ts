@@ -95,7 +95,7 @@ export class UploadComponent implements OnDestroy {
           title: this.title.value, // Grabs the title specified by the user when uploading.
           fileName: `${clipFileName}.mp4`, // Grabs the original file name as it was when uploaded from users pc.
           url, // Grabs the url where the file upload can be found.
-          timeStamp: firebase.firestore.FieldValue.serverTimestamp(),
+          timestamp: firebase.firestore.FieldValue.serverTimestamp(),
         };
         const clipDocRef = await this.clipsService.createClip(clip);
         console.log(clip); // Logs the clip object with all metadata filled.
