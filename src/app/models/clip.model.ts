@@ -6,6 +6,6 @@ export interface iClip {
   title: string;
   fileName: string;
   url: string;
-  timeStamp: firebase.firestore.FieldValue;
+  timestamp: firebase.firestore.FieldValue;
   docId?: string;
 }
