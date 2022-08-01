@@ -35,7 +35,7 @@ export class ClipService {
            return of([]); // If user is null (not logged in) it returns an empty array.
          }
 
-         // Variable to check if the uid property is equal to the uid of the currently logged-in user, if so its returns th document.
+         // Variable to check if the uid property is equal to the uid of the currently logged-in user, if so it returns the document.
          const query = this.clipsCollection.ref.where('uid', '==', user.uid)
            .orderBy('timestamp', sort === '1' ? 'desc' : 'asc');
 
