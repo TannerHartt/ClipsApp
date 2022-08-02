@@ -28,9 +28,9 @@ export class TabsContainerComponent implements OnInit, AfterContentInit {
   selectTab(tab: TabComponent) { // Controls which tab in the login/register modal is active.
     this.tabs?.forEach(tab => {
       tab.active = false;
-    });
+    }); // Loops through list of tabs (login and register tabs) and sets them all to false.
 
-    tab.active = true;
+    tab.active = true; // Then sets the correct one to true (the one being viewed).
 
     return false;
   }
