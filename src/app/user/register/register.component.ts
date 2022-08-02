@@ -28,7 +28,7 @@ export class RegisterComponent {
   alertMsg: string = 'Please wait while your account is being created.';
   alertColor: string = 'blue';
 
-  registerForm = new FormGroup({
+  registerForm = new FormGroup({ // Programmatically store and handle the values entered into the register form and form validation.
     name: this.name,
     email: this.email,
     age: this.age,
@@ -38,21 +38,24 @@ export class RegisterComponent {
   }, [RegisterValidators.match('password', 'confirm_password')]);
 
   async register() {
-    this.showAlert = true;
-    this.alertMsg = 'Please wait while your account is being created';
+    this.showAlert = true; // Toggles the alert component on.
+    this.alertMsg = 'Please wait while your account is being created'; // Displays relevant submission message.
     this.alertColor = 'blue';
-    this.inSubmission = true;
+    this.inSubmission = true; // Toggles the circle loader and percentage tracker.
 
 
     try {
+        // Calls the firebase provided create user function and passes in the values entered by the user in the register form.
         await this.auth.createUser(this.registerForm.value as IUser);
-    } catch (e) {
+    } catch (e) { // If an error occurs, display relevant info to the user indicating an error occurred.
         console.log(e);
         this.alertMsg = 'An unexpected error occurred';
         this.alertColor = 'red';
         this.inSubmission = false;
-        return;
+        return; // End function compilation and return.
     }
+
+    // If no error occurs if reaches these success properties indicating a successful account registration.
     this.alertMsg = 'Success! Your account has been created';
     this.alertColor = 'green';
   }

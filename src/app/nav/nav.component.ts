@@ -21,7 +21,7 @@ export class NavComponent implements OnInit {
   }
 
   openModal(event: Event) {
-    event.preventDefault();
-    this.modal.toggleModal('auth');
+    event.preventDefault(); // Prevents default browser event handling behavior.
+    this.modal.toggleModal('auth'); // Toggles the given modal in the DOM.
   }
 }
