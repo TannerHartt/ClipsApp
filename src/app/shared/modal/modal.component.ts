@@ -13,15 +13,15 @@ export class ModalComponent implements OnInit, OnDestroy {
   constructor(public modal: ModalService, public elRef: ElementRef) { }
 
   ngOnInit(): void {
-    document.body.appendChild(this.elRef.nativeElement);
+    document.body.appendChild(this.elRef.nativeElement); // Adds the element to the DOM when component is opened/ initialized.
   }
 
   ngOnDestroy() {
-    document.body.removeChild(this.elRef.nativeElement);
+    document.body.removeChild(this.elRef.nativeElement); // Removes the element from the DOM when the modal is closed.
   }
 
   closeModal() {
-    this.modal.toggleModal(this.modalId);
+    this.modal.toggleModal(this.modalId); // Gives functionality to the close modal when clicking the 'X' button.
   }
 
 }

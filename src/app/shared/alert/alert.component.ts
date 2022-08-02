@@ -15,6 +15,6 @@ export class AlertComponent implements OnInit {
   }
 
   get bgColor() {
-    return `bg-${this.color}-400`;
+    return `bg-${this.color}-400`; // a getter function to allow re-usability of this component by simply passing in the desired color when using it.
   }
 }
