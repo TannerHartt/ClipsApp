@@ -14,7 +14,8 @@ export class AlertComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  // a getter function to allow re-usability of this component by simply passing in the desired color when using it.
   get bgColor() {
-    return `bg-${this.color}-400`; // a getter function to allow re-usability of this component by simply passing in the desired color when using it.
+    return `bg-${this.color}-400`;
   }
 }

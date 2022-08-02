@@ -15,7 +15,7 @@ export class AuthService {
   private redirect = false;
 
   constructor(private db: AngularFirestore, private auth: AngularFireAuth, private router: Router, private route: ActivatedRoute) {
-    this.usersCollection = db.collection('users');
+    this.usersCollection = db.collection('users'); // Grabs the 'users' collection found in our firebase server and stores it in a variable for use throughout the app.
     this.isAuthenticated$ = auth.user.pipe(
       map(user => !!user)
     );
@@ -31,33 +31,38 @@ export class AuthService {
 
   public async createUser(userData: IUser) {
     if(!userData.password) {
-      throw new Error('Password not provided');
+      throw new Error('Password not provided'); // Throw error if the user did not enter a password when registering.
     }
+
+    // Make a call to the firebase function to create a user with the email and password they entered.
     const userCreds = await this.auth.createUserWithEmailAndPassword(userData.email, userData.password);
 
     if(!userCreds.user) {
-      throw new Error('User not found!')
+      throw new Error('User not found!'); // Throws an error if the user was not correctly created / is null.
     }
-    await this.usersCollection.doc(userCreds.user.uid).set({
-      name: userData.name,
-      email: userData.email,
-      age: userData.age,
-      number: userData.number
-    })
 
+    // Sets the unique data entered by the user to their account / profile information.
+    await this.usersCollection.doc(userCreds.user.uid).set({
+      name: userData.name, // User name.
+      email: userData.email, // User email.
+      age: userData.age, // User age.
+      number: userData.number // User phone number.
+    });
+
+    // Gives the user a unique display name property to refer to the account as.
     await userCreds.user.updateProfile({
       displayName: userData.name,
     });
   }
 
   public async logout($event?: Event) {
-    if($event) {
+    if($event) { // If an event happens, prevent the default browser behavior of refreshing the page.
       $event.preventDefault();
     }
-    await this.auth.signOut();
+    await this.auth.signOut(); // Call the firebase given sign out method
 
     if(this.redirect) {
-      await this.router.navigateByUrl('/');
+      await this.router.navigateByUrl('/'); // Automatically redirects user to the home page of an unauthorized user.
     }
   }
 }

@@ -10,6 +10,7 @@ export class EmailTaken implements AsyncValidator {
   constructor(private auth: AngularFireAuth) {
   }
 
+  // Custom validator that calls the firebase function to check if the emailTaken property on the form control is true.
   validate = (control: AbstractControl): Promise<ValidationErrors | null> =>     {
     return this.auth.fetchSignInMethodsForEmail(control.value).then(
       response => response.length ? { emailTaken: true } : null

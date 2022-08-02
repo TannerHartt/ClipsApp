@@ -19,7 +19,7 @@ export class ClipService {
    public clipsCollection: AngularFirestoreCollection<iClip>
 
   constructor(private db: AngularFirestore, private auth: AngularFireAuth, private storage: AngularFireStorage) {
-     this.clipsCollection = db.collection('clips');
+     this.clipsCollection = db.collection('clips'); // Grabs the 'clips' collection found in firebase (A list of all clips uploaded by the user).
   }
 
   createClip(data: iClip) : Promise<DocumentReference<iClip>> {
@@ -46,9 +46,9 @@ export class ClipService {
   }
 
   updateClip(id: string, title: string) {
-     return this.clipsCollection.doc(id).update({
+     return this.clipsCollection.doc(id).update({ // Allows you to grab a document by its id from firebase.
        title
-     }); // Allows you to grab a document by its id from firebase.
+     }); // Then updates the title property in the specified clip (Allows user to change the title of any clip they upload).
   }
 
   async deleteClip(clip: iClip) {
