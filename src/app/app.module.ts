@@ -38,9 +38,9 @@ const routes: Routes = [
     RouterModule.forRoot(routes),
     UserModule,
     AngularFireModule.initializeApp(environment.firebase),
-    AngularFireAuthModule,
-    AngularFirestoreModule,
-    VideoModule,
+    AngularFireAuthModule, // Firebase authentication service.
+    AngularFirestoreModule, // Angular firestore db module.
+    VideoModule, // All components involved with video upload, manage, and editing
     AngularFireStorageModule, // Angular firebase helper module.
 
   ],

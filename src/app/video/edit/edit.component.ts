@@ -43,7 +43,7 @@ export class EditComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   ngOnChanges() {
-    if(!this.activeClip) { // Check for if the active clip object is null.
+    if(!this.activeClip) { // Check if the active clip object is null, if so return.
       return;
     }
 
@@ -53,20 +53,22 @@ export class EditComponent implements OnInit, OnDestroy, OnChanges {
     this.title.setValue(this.activeClip.title);
   }
 
-  async submit() {
+
+  async submit() { // Function used for handling the submission of the update clip form.
     if(!this.activeClip) {
-      return;
+      return; // If the form is submitted without a clip being selected (Active clip is null), return.
     }
 
-    this.inSubmission = true;
-    this.showAlert = true;
-    this.alertColor = 'blue';
-    this.alertMsg = 'Please wait, updating clip.';
+    this.inSubmission = true; // Disables the submit button to prevent duplicate submissions.
+    this.showAlert = true; // Toggles the alert box on.
+    this.alertColor = 'blue'; // Colors the background blue to match the theme.
+    this.alertMsg = 'Please wait, updating clip.'; // Information text for user.
 
     try {
+      // Calls the function in the service to communicate with firebase with the update clip information.
       await this.clipService.updateClip(this.clipId.value, this.title.value);
     }
-    catch (error) { // Catch any errors that occur by the async operation and reset all values if one occurs.
+    catch (error) { // Catch any errors that occur by the async operation and update alert data to indicate an error to the user.
       this.inSubmission = false;
       this.alertColor = 'red';
       this.alertMsg = 'Something went wrong! Try again later';
