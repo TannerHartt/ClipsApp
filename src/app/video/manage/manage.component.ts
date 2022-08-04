@@ -11,13 +11,13 @@ import { BehaviorSubject } from 'rxjs';
   styleUrls: ['./manage.component.css']
 })
 export class ManageComponent implements OnInit {
-  videoOrder: string = '1';
-  clips: iClip[] = [];
-  activeClip: iClip | null = null;
-  sort$: BehaviorSubject<string>;
+  videoOrder: string = '1'; // Default clip sorting : 1 = sort by most recent, 2 = sort by oldest.
+  clips: iClip[] = []; // To store the list of all the clips a user has uploaded.
+  activeClip: iClip | null = null; // To track which clip is being edited/deleted.
+  sort$: BehaviorSubject<string>; // Used like an event emitter to emit the change when the user changes sorting methods.
 
   constructor(private route: ActivatedRoute, private router: Router, private clipService: ClipService, private modal: ModalService) {
-    this.sort$ = new BehaviorSubject<string>(this.videoOrder);
+    this.sort$ = new BehaviorSubject<string>(this.videoOrder); // Initializes and stores the sorting subject when the component is created.
   }
 
   ngOnInit(): void {
@@ -26,10 +26,12 @@ export class ManageComponent implements OnInit {
       this.sort$.next(this.videoOrder);
     });
 
+    // Grabs the list of clips for each user from firebase while making use of firebase's built in sorting using the clips timestamp property.
     this.clipService.getUserClips(this.sort$).subscribe(docs => {
       this.clips = []; // Resets the array back to empty to avoid duplicate entries.
 
-      docs.forEach(doc => { // Loops through the docs property from firebase and stores each object in the clips array for implementation..
+      // Loops through the 'docs' property from firebase and stores each object in the clips array for implementation.
+      docs.forEach(doc => {
         this.clips.push({
           docId: doc.id,
           ...doc.data()
@@ -41,7 +43,8 @@ export class ManageComponent implements OnInit {
   async sort(event: Event) {
     const { value } = (event.target as HTMLSelectElement);
 
-    await this.router.navigate([], { // Uses the router service to navigate to the page with the current desired query parameter / sort method.
+    // Uses the router service to navigate to the page with the current desired query parameter / sort method.
+    await this.router.navigate([], {
       relativeTo: this.route,
       queryParams: {
         sort: value

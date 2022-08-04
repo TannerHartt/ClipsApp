@@ -15,17 +15,17 @@ import { Router } from '@angular/router';
 })
 export class UploadComponent implements OnDestroy {
 
-  isDragOver: boolean = false;
-  file: File | null = null;
-  nextStep: boolean = false;
-  showAlert: boolean = false;
-  alertColor: string = 'blue';
+  isDragOver: boolean = false; // To track if a file is being dragged over an element.
+  file: File | null = null; // To store and manage the file uploaded by the user.
+  nextStep: boolean = false; // To track if the first part of file upload was successful, prevents the continuation of the upload if an error occurs.
+  showAlert: boolean = false; // To toggle alert box on/off.
+  alertColor: string = 'blue'; // To make alert box an appropriate color.
   alertMsg: string = 'Please wait! Your clip i being uploaded.';
-  inSubmission: boolean = false;
-  percentage: number = 0;
-  showPercentage: boolean = false;
-  user: firebase.User | null = null;
-  task?: AngularFireUploadTask;
+  inSubmission: boolean = false; // To disable/enable the submission button.
+  percentage: number = 0; // A starting point for the upload percentage tracker.
+  showPercentage: boolean = false; // Toggles the upload percentage tracker on/off.
+  user: firebase.User | null = null; // To track and manage the user that is logged in.
+  task?: AngularFireUploadTask; // To track and manage the upload submission task with help from firebase.
 
 
   title = new FormControl('', {

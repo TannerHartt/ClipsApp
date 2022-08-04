@@ -34,23 +34,23 @@ export class EditComponent implements OnInit, OnDestroy, OnChanges {
 
   constructor(private modal: ModalService, private clipService: ClipService) { }
 
-  ngOnInit(): void { // Runs when component is initialized.
+  ngOnInit(): void { // Adds the 'editClip' modal to the DOM when it is initialized / viewed
     this.modal.register('editClip');
   }
 
-  ngOnDestroy() { // Runs when the component is destroyed.
+  ngOnDestroy() { // Removes the 'editClip' modal from the DOM when its closed / no longer being viewed.
     this.modal.unRegister('editClip');
   }
 
   ngOnChanges() {
-    if(!this.activeClip) { // Check if the active clip object is null, if so return.
-      return;
+    if(!this.activeClip) {
+      return; // Check if the active clip object is null, if so return.
     }
 
-    this.inSubmission = false;
-    this.showAlert = false;
-    this.clipId.setValue(this.activeClip.docId as string);
-    this.title.setValue(this.activeClip.title);
+    this.inSubmission = false; // Re-enables the submit button for another edit submission attempt.
+    this.showAlert = false; // Toggles the alert component off.
+    this.clipId.setValue(this.activeClip.docId as string); // Programmatically sets the value of the in the ID form control to the ID of the currently viewed clip.
+    this.title.setValue(this.activeClip.title); // Programmatically sets the value of the title form control to the title of the currently edited clip.
   }
 
 
@@ -69,7 +69,7 @@ export class EditComponent implements OnInit, OnDestroy, OnChanges {
       await this.clipService.updateClip(this.clipId.value, this.title.value);
     }
     catch (error) { // Catch any errors that occur by the async operation and update alert data to indicate an error to the user.
-      this.inSubmission = false;
+      this.inSubmission = false; // Stops the submission process and signals an error has occurred.
       this.alertColor = 'red';
       this.alertMsg = 'Something went wrong! Try again later';
       return;
