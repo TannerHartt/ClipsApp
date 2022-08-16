@@ -74,7 +74,7 @@ export class ManageComponent implements OnInit {
     await this.clipService.deleteClip(clip); // Calls the delete function in the service and passes it the clip to be deleted.
 
     this.clips.forEach((element, index) => { // Loops through the clips array and finds the clip to be deleted.
-      if(element.docId == clip.docId) {
+      if(element.docId == clip.docId) { // Check on each element to find the specific clip user is deleting.
         this.clips.splice(index, 1); // Removes the clip from the array.
       }
     });

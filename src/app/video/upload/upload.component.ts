@@ -20,7 +20,7 @@ export class UploadComponent implements OnDestroy {
   nextStep: boolean = false; // To track if the first part of file upload was successful, prevents the continuation of the upload if an error occurs.
   showAlert: boolean = false; // To toggle alert box on/off.
   alertColor: string = 'blue'; // To make alert box an appropriate color.
-  alertMsg: string = 'Please wait! Your clip i being uploaded.';
+  alertMsg: string = 'Please wait! Your clip i being uploaded.'; // Default alert message.
   inSubmission: boolean = false; // To disable/enable the submission button.
   percentage: number = 0; // A starting point for the upload percentage tracker.
   showPercentage: boolean = false; // Toggles the upload percentage tracker on/off.
@@ -30,18 +30,18 @@ export class UploadComponent implements OnDestroy {
 
   title = new FormControl('', {
     validators: [
-      Validators.required,
-      Validators.minLength(3)
+      Validators.required, // Makes the title form field required to be filled before form submission.
+      Validators.minLength(3) // Sets the minimum clip title to 3 characters.
     ],
-    nonNullable: true // Makes the title input not able to be empty.
+    nonNullable: true // Makes the title input not able to be empty. This is false by default.
   });
 
   uploadForm = new FormGroup({
-    title: this.title
+    title: this.title // Registers the title field in the form.
   });
 
   constructor(private storage: AngularFireStorage, private auth: AngularFireAuth, private clipsService: ClipService, private router: Router) {
-    auth.user.subscribe(user => this.user = user);
+    auth.user.subscribe(user => this.user = user); // Grabs the user information from firebase.
   }
 
   ngOnDestroy() {
@@ -67,14 +67,14 @@ export class UploadComponent implements OnDestroy {
   }
 
   uploadFile() {
-    this.uploadForm.disable();
+    this.uploadForm.disable(); // Programmatically disables the upload form to prevent duplicate submissions.
     const clipFileName = uuid();
     const clipPath = `clips/${clipFileName}.mp4`; // Creates designated file directory in firebase for video storage.
 
     this.showAlert = true; // For custom alert component
     this.alertColor = 'blue'; // For custom alert component
     this.alertMsg = 'Please wait! Your clip is being updated.'; // For custom alert component
-    this.inSubmission = true;
+    this.inSubmission = true; // Disables the submission button if a task is already in progress.
     this.showPercentage = true; // Shows the percentage tracker when uploading.
 
     this.task = this.storage.upload(clipPath, this.file);

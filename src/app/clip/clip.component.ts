@@ -12,7 +12,7 @@ export class ClipComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.params.subscribe((params: Params) => {
-      this.id = params.id; // Provides the clip id in the route parameters.
+      this.id = params.id; // Provides the clip ID in the route parameters.
     });
   }
 
