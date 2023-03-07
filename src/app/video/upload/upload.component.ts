@@ -7,6 +7,7 @@ import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { ClipService } from '../../services/clip.service';
 import firebase from 'firebase/compat/app';
 import { Router } from '@angular/router';
+import { FfmpegService } from 'src/app/services/ffmpeg.service';
 
 @Component({
   selector: 'app-upload',
@@ -40,15 +41,16 @@ export class UploadComponent implements OnDestroy {
     title: this.title // Registers the title field in the form.
   });
 
-  constructor(private storage: AngularFireStorage, private auth: AngularFireAuth, private clipsService: ClipService, private router: Router) {
+  constructor(private storage: AngularFireStorage, private auth: AngularFireAuth, private clipsService: ClipService, private router: Router, public ffmpeg: FfmpegService) {
     auth.user.subscribe(user => this.user = user); // Grabs the user information from firebase.
+    this.ffmpeg.init(); // Initializes the ffmpeg service.
   }
 
   ngOnDestroy() {
     this.task?.cancel(); // If there is a current upload, cancel it to avoid memory leak.
   }
 
-  storeFile(event: Event) {
+  async storeFile(event: Event) {
     this.isDragOver = false;
 
     // Nullish coalescing statement that grabs the file from the dataTransfer object in the browser in the first index position [0];
@@ -59,6 +61,8 @@ export class UploadComponent implements OnDestroy {
     if(!this.file || this.file.type !== 'video/mp4') { // Sets condition to
       return; // Restricts the function to only run if the uploaded file is not null or isn't a video/mp4.
     }
+
+    await this.ffmpeg.getScreenshots(this.file);
 
     this.title.setValue(this.file.name.replace(/\.[^/.]+$/, '')); // Regular expression
     this.nextStep = true;
