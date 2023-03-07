@@ -15,6 +15,7 @@ import { HomeComponent } from './home/home.component';
 import { AboutComponent } from './about/about.component';
 import { ClipComponent } from './clip/clip.component';
 import { NotFoundComponent } from './not-found/not-found.component';
+import { ClipsListComponent } from './clips-list/clips-list.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -32,6 +33,7 @@ const routes: Routes = [
     AboutComponent,
     ClipComponent,
     NotFoundComponent,
+    ClipsListComponent,
   ],
   imports: [
     BrowserModule,
