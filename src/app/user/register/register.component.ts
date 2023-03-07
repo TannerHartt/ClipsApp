@@ -42,7 +42,6 @@ export class RegisterComponent {
     this.alertColor = 'blue';
     this.inSubmission = true; // Toggles the circle loader and percentage tracker.
 
-
     try {
         // Calls the firebase provided create user function and passes in the values entered by the user in the register form.
         await this.auth.createUser(this.registerForm.value as IUser);

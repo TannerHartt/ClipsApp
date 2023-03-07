@@ -8,7 +8,7 @@ import { AngularFireStorageModule } from "@angular/fire/compat/storage";
 
 import { environment  } from '../environments/environment';
 import { AppComponent } from './app.component';
-import { RouterModule, Routes} from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 import { UserModule } from './user/user.module';
 import { NavComponent } from './nav/nav.component';
 import { HomeComponent } from './home/home.component';
