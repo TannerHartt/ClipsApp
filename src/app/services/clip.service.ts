@@ -17,6 +17,8 @@ import { AngularFireStorage } from '@angular/fire/compat/storage';
 })
 export class ClipService {
    public clipsCollection: AngularFirestoreCollection<iClip>
+   pageClips: iClip[] = []; // An array of clips to be displayed on the home page.
+   pendingRequest: boolean = false; // To track if a request is pending.
 
   constructor(private db: AngularFirestore, private auth: AngularFireAuth, private storage: AngularFireStorage) {
      this.clipsCollection = db.collection('clips'); // Grabs the 'clips' collection found in firebase (A list of all clips uploaded by the user).
@@ -57,6 +59,35 @@ export class ClipService {
     await clipRef.delete(); // Deletes the reference to the specific clip in firebase.
     await screenshotRef.delete(); // Deletes the reference to the specific screenshot in firebase.
     await this.clipsCollection.doc(clip.docId).delete(); // Deletes the clip and its data in the clips collection in firebase.
+  }
+
+  async getClips() {
+    if (this.pendingRequest) return; // If a request is pending then it returns.
+  
+    this.pendingRequest = true; // If a request is not pending then it sets the pendingRequest property to true.
+    let query = this.clipsCollection.ref
+      .orderBy('timestamp', 'desc') // Grabs all clips from the clips collection in firebase and orders them by the timestamp property in descending order.
+      .limit(6); // Limits the amount of clips to 6.
+
+    const { length } = this.pageClips; // Grabs the length of the pageClips array.
+
+    if (length) {
+      const lastDocID = this.pageClips[length - 1].docId; // Grabs the last document id in the pageClips array.
+      const lastDoc = await this.clipsCollection.doc(lastDocID).get().toPromise(); // Grabs the last document in the pageClips array.
+
+      query = query.startAfter(lastDoc); // Starts the query after the last document in the pageClips array.
+    }
+
+    const snapshot = await query.get(); // Grabs the query and stores it in a variable called snapshot.
+
+    snapshot.forEach(doc => {
+      this.pageClips.push({
+        docId: doc.id,
+        ...doc.data(),
+      });
+    }); 
+
+    this.pendingRequest = false; // Sets the pendingRequest property to false.
   }
 
 }
