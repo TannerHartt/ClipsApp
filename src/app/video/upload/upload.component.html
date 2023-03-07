@@ -5,7 +5,7 @@
 
     <ng-container>
       <span *ngIf="!ffmpeg.isReady; else uploadEditorCtr" class="material-icons text-center text-6xl p-8 animate-spin">
-        Settings
+        settings
       </span>
     </ng-container>
 
@@ -26,6 +26,7 @@
             border-gray-400 transition duration-500 hover:text-white
             hover:bg-indigo-400 hover:border-indigo-400 hover:border-solid text-xl">
           <h5>Drop your file here (mp4 only!)</h5>
+          <span *ngIf="ffmpeg.isRunning" class="material-icons text-center text-6xl p-8 animate-spin">autorenew</span>
         </div>
         <input type="file" class="mt-4" (change)="storeFile($event)">
       </ng-container>
@@ -41,14 +42,11 @@
           <!-- Screenshots -->
           <h2 class="mb-4 text-xl">Select a Thumbnail</h2>
           <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
-            <div class="border-8 cursor-pointer border-green-400">
-              <img src="./assets/img/1.jpg" alt="">
-            </div>
-            <div class="border-8 cursor-pointer border-transparent">
-              <img src="./assets/img/2.jpg" alt="">
-            </div>
-            <div class="border-8 cursor-pointer border-transparent">
-              <img src="./assets/img/3.jpg" alt="">
+            <div *ngFor="let screenshot of screenshots" class="border-8 cursor-pointer" 
+            [ngClass]="{ 'border-green-400' : screenshot === selectedScreenshot,
+                       'border-transparent' : screenshot !== selectedScreenshot             
+            }" (click)="selectedScreenshot = screenshot">
+              <img [src]="screenshot | safeURL" alt="">
             </div>
           </div>
 
