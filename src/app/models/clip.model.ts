@@ -8,4 +8,6 @@ export interface iClip {
   url: string;
   timestamp: firebase.firestore.FieldValue;
   docId?: string;
+  screenshotURL: string;
+  screenshotFileName: string;
 }
