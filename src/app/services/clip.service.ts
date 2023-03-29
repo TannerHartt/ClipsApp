@@ -8,19 +8,20 @@ import {
 import { iClip } from '../models/clip.model'  ;
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { switchMap, map } from 'rxjs/operators';
-import { of, BehaviorSubject, combineLatest } from 'rxjs';
+import { of, BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
+import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot, Router } from '@angular/router';
 
 
 @Injectable({
   providedIn: 'root'
 })
-export class ClipService {
+export class ClipService implements Resolve<iClip | null> {
    public clipsCollection: AngularFirestoreCollection<iClip>
    pageClips: iClip[] = []; // An array of clips to be displayed on the home page.
    pendingRequest: boolean = false; // To track if a request is pending.
 
-  constructor(private db: AngularFirestore, private auth: AngularFireAuth, private storage: AngularFireStorage) {
+  constructor(private db: AngularFirestore, private auth: AngularFireAuth, private storage: AngularFireStorage, private router: Router) {
      this.clipsCollection = db.collection('clips'); // Grabs the 'clips' collection found in firebase (A list of all clips uploaded by the user).
   }
 
@@ -90,4 +91,21 @@ export class ClipService {
     this.pendingRequest = false; // Sets the pendingRequest property to false.
   }
 
+
+  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): iClip | Observable<iClip | null> | Promise<iClip | null> | null {
+     return this.clipsCollection.doc(route.params.id)
+      .get()
+      .pipe(
+        map(snapshot => {
+          const data = snapshot.data();
+
+          if (!data) {
+            this.router.navigate(['/']);
+            return null;
+          }
+
+          return data;
+        })
+      )
+  }
 }
