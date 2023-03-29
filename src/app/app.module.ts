@@ -17,11 +17,12 @@ import { ClipComponent } from './clip/clip.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { ClipsListComponent } from './clips-list/clips-list.component';
 import { FbTimestampPipe } from './pipes/fb-timestamp.pipe';
+import { ClipService } from './services/clip.service';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'about', component: AboutComponent },
-  { path: 'clip/:id', component: ClipComponent },
+  { path: 'clip/:id', component: ClipComponent, resolve: { clip: ClipService } },
 
   { path: '**', component: NotFoundComponent }
 ];
