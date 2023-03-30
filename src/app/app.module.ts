@@ -3,7 +3,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
-import { VideoModule } from './video/video.module';
 import { AngularFireStorageModule } from "@angular/fire/compat/storage";
 
 import { environment  } from '../environments/environment';
@@ -24,6 +23,7 @@ const routes: Routes = [
   { path: 'about', component: AboutComponent },
   { path: 'clip/:id', component: ClipComponent, resolve: { clip: ClipService } },
 
+  { path: '', loadChildren: async () => (await import('./video/video.module')).VideoModule },
   { path: '**', component: NotFoundComponent }
 ];
 
@@ -45,9 +45,7 @@ const routes: Routes = [
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAuthModule, // Firebase authentication service.
     AngularFirestoreModule, // Angular firestore db module.
-    VideoModule, // All components involved with video upload, manage, and editing
     AngularFireStorageModule, // Angular firebase helper module.
-
   ],
   providers: [],
   bootstrap: [AppComponent]
