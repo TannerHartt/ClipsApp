@@ -8,7 +8,6 @@ import { BehaviorSubject } from 'rxjs';
 @Component({
   selector: 'app-manage',
   templateUrl: './manage.component.html',
-  styleUrls: ['./manage.component.css']
 })
 export class ManageComponent implements OnInit {
   videoOrder: string = '1'; // Default clip sorting : 1 = sort by most recent, 2 = sort by oldest.
@@ -78,6 +77,19 @@ export class ManageComponent implements OnInit {
         this.clips.splice(index, 1); // Removes the clip from the array.
       }
     });
+  }
+
+  async copyToClipboard($event: MouseEvent, docId: string | undefined) {
+      $event.preventDefault();
+
+      if (!docId) {
+        return;
+      }
+
+      const url = `${location.origin}/clip/${docId}`;
+      await navigator.clipboard.writeText(url);
+
+      alert('Link Copied!');
   }
 
 }
